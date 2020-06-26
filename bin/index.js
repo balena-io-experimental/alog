@@ -28,9 +28,10 @@ async function getDeviceServicesIds(device) {
     .then(device => {
       allServices = {};
       deviceServices = device.current_services;
-      for (service in deviceServices) {
+      for (serviceName in deviceServices) {
 	// Just one service per entry?
-	allServices[service] = deviceServices[service][0].id;
+	serviceId = parseInt(deviceServices[serviceName][0].service_id);
+	allServices[serviceId] = serviceName;
       }
       return allServices;
     });
