@@ -23,15 +23,33 @@ balena.auth.whoami()
     }
   })
 
-balena.models.device.getAllByApplication('arduino-wx-logger').then(devices => {
-  // I've only got one device
-  return devices[0].uuid;
-})
-  .then(uuid => {
-    return balena.logs.subscribe(uuid);
+async function getDeviceServicesIds(device) {
+  return await balena.models.device.getWithServiceDetails(myDevice)
+    .then(device => {
+      allServices = {};
+      deviceServices = device.current_services;
+      for (service in deviceServices) {
+	// Just one service per entry?
+	allServices[service] = deviceServices[service][0].id;
+      }
+      return allServices;
+    });
+}
+
+async function subscribeToLogs(application) {
+  return await balena.models.device.getAllByApplication(myApplication).then(devices => {
+    // I've only got one device
+    return devices[0].uuid;
   })
+    .then(uuid => {
+      return balena.logs.subscribe(uuid);
+    })
+}
+
+subscribeToLogs(myApplication)
   .then(logs => {
+    serviceIds = getDeviceServicesIds(myDevice);
     logs.on('line', function(line){
       logutil.dispatch(line);
     })
-  })
+  });
