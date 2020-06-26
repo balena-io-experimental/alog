@@ -1,13 +1,12 @@
 #!/usr/bin/env node
 
 const fs = require('fs');
+const logutil = require('./logutil');
 
 const getSdk = require('balena-sdk');
 const balena = getSdk({
   apiUrl: "https://api.balena-cloud.com/"
 });
-
-console.log("Hello, world!");
 
 var personalToken = fs.readFileSync('/home/hugh/.balena/token.personal', 'utf8');
 
@@ -33,6 +32,6 @@ balena.models.device.getAllByApplication('arduino-wx-logger').then(devices => {
   })
   .then(logs => {
     logs.on('line', function(line){
-      console.log(line);
-    } )
+      logutil.dispatch(line);
+    })
   })
