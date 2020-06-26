@@ -51,6 +51,6 @@ subscribeToLogs(myApplication)
   .then(logs => {
     getDeviceServicesIds(myDevice).then(data => allServiceIds = data);
     logs.on('line', function(line){
-      logutil.dispatch(line);
+      logutil.dispatch(line, allServiceIds);
     })
   });

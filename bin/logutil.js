@@ -1,7 +1,9 @@
 module.exports = {
-  dispatch: function(line) {
+  dispatch: function(line, serviceIds) {
     // For now, just print it out
-    this.print(line);
+    lineId = line.serviceId.toString();
+    console.log("Oh look, a message from", serviceIds[lineId], ":", line.message);
+    // this.print(line);
   },
   print: function(line) {
     console.log(line);
