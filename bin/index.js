@@ -49,7 +49,7 @@ async function subscribeToLogs(application) {
 
 subscribeToLogs(myApplication)
   .then(logs => {
-    serviceIds = getDeviceServicesIds(myDevice);
+    getDeviceServicesIds(myDevice).then(data => allServiceIds = data);
     logs.on('line', function(line){
       logutil.dispatch(line);
     })
