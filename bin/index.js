@@ -65,7 +65,7 @@ balena.auth.whoami()
 // ...then try subscribing to some logs.
 subscribeToLogs(options.application)
   .then(logs => {
-    getDeviceServicesIds(options.devices)
+    getDeviceServicesIds(options.uuid)
       .then(data => allServiceIds = data);
     logs.on('line', function(line) {
       logutil.dispatch(line, allServiceIds);
